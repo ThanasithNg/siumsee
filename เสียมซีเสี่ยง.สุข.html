@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html lang="th">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>เซียมซีเสี่ยง…สุข🎢🎡🫟</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+
+  margin:0;
+
+  font-family:'Prompt',sans-serif;
+
+  background: radial-gradient(circle at top, #1a1a2e, #0f172a);
+
+  color:white;
+
+  text-align:center;
+
+  overflow-x:hidden;
+
+}
+
+.glow {
+
+  position:fixed;
+
+  width:300px;
+
+  height:300px;
+
+  background:radial-gradient(circle, #ffd36955, transparent);
+
+  filter:blur(80px);
+
+  animation: float 6s infinite alternate;
+
+}
+
+@keyframes float {
+
+  from {transform:translateY(0);}
+
+  to {transform:translateY(100px);}
+
+}
+
+.container {
+
+  padding:40px 20px;
+
+}
+
+input {
+
+  padding:12px;
+
+  border-radius:20px;
+
+  border:none;
+
+  width:200px;
+
+  text-align:center;
+
+  margin-bottom:20px;
+
+}
+
+.stick {
+
+  width:140px;
+
+  height:200px;
+
+  margin:20px auto;
+
+  border-radius:20px;
+
+  background:linear-gradient(#ffb703,#fb8500);
+
+  box-shadow:0 0 30px #ffb703;
+
+  cursor:pointer;
+
+}
+
+.shake {
+
+  animation:shake 0.5s;
+
+}
+
+@keyframes shake {
+
+  0%{transform:rotate(0)}
+
+  25%{transform:rotate(10deg)}
+
+  50%{transform:rotate(-10deg)}
+
+  75%{transform:rotate(6deg)}
+
+  100%{transform:rotate(0)}
+
+}
+
+.result {
+
+  display:none;
+
+  margin-top:20px;
+
+  padding:20px;
+
+  border-radius:20px;
+
+  background:rgba(255,255,255,0.1);
+
+  backdrop-filter: blur(10px);
+
+  max-width:400px;
+
+  margin-left:auto;
+
+  margin-right:auto;
+
+}
+
+.quote {
+
+  font-style:italic;
+
+  margin-top:10px;
+
+  opacity:0.9;
+
+}
+
+button {
+
+  margin-top:15px;
+
+  padding:10px 20px;
+
+  border:none;
+
+  border-radius:30px;
+
+  background:#ffd369;
+
+  cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="glow"></div>
+
+<div class="container">
+
+<h1>เซียมซีเสี่ยง…สุข🔖📯</h1>
+
+<input type="text" id="name" placeholder="ใส่ชื่อของคุณ">
+
+<div class="stick" id="stick" onclick="draw()"></div>
+
+<div class="result" id="result">
+
+<h2 id="number"></h2>
+
+<p id="fortune"></p>
+
+<div class="quote" id="quote"></div>
+
+<button onclick="share()">แชร์ผลลัพธ์</button>
+
+<button onclick="draw()">สุ่มใหม่</button>
+
+</div>
+
+</div>
+
+<audio id="sound">
+
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0c9e.mp3">
+
+</audio>
+
+<script>
+
+const data = [
+
+{f:"ชีวิตกำลังค่อย ๆ ดีขึ้น แม้ยังไม่สมบูรณ์ แต่เส้นทางเริ่มชัดเจนขึ้นแล้ว",q:"ชีวิตไม่ต้องปัง แค่ไม่พังก็พอแล้ว"},
+
+{f:"ความสับสนจะคลี่คลาย คุณจะหาคำตอบได้ด้วยตัวเอง",q:"งงได้ แต่อย่านาน เดี๋ยวสวยไม่ทัน"},
+
+{f:"คุณกำลังเหนื่อย แต่คุณแข็งแกร่งพอจะผ่านมันไป",q:"เหนื่อยก็พัก แต่ห้ามพักยาวจนลืมสู้"},
+
+{f:"การจากไปของบางคนคือโอกาสใหม่ในชีวิตคุณ",q:"เสียคนไม่ดีไป ได้พื้นที่ให้คนดีเข้ามา"},
+
+{f:"โชคกำลังมาแบบช้าแต่มั่นคง",q:"ช้าแต่ชัวร์ ดีกว่ารีบแล้วพัง"},
+
+{f:"ความผิดพลาดจะกลายเป็นพลังของคุณ",q:"ล้มไม่เจ็บเท่าไม่ล้มแล้วไม่โต"},
+
+{f:"คุณจะรักตัวเองมากขึ้นและเลือกคนได้ดีขึ้น",q:"ใจเรามีค่า อย่าเอาไปแลกกับใครมั่ว ๆ"},
+
+{f:"โอกาสใหม่กำลังมา แม้ไม่พร้อมแต่คุณเอาอยู่",q:"ไม่ได้พร้อม แต่ก็ไม่ถอย"},
+
+{f:"สุดท้ายคุณจะผ่านทุกอย่างไปได้",q:"วันนี้อาจแย่ แต่เราไม่แย่ไปตลอด"}
+
+];
+
+function draw(){
+
+  const name=document.getElementById("name").value||"คุณ";
+
+  const stick=document.getElementById("stick");
+
+  const sound=document.getElementById("sound");
+
+  stick.classList.add("shake");
+
+  sound.play();
+
+  setTimeout(()=>{
+
+    stick.classList.remove("shake");
+
+    const i=Math.floor(Math.random()*data.length);
+
+    document.getElementById("number").innerText="เซียมซีหมายเลข "+(i+1);
+
+    document.getElementById("fortune").innerText=name+" : "+data[i].f;
+
+    document.getElementById("quote").innerText=data[i].q;
+
+    document.getElementById("result").style.display="block";
+
+  },500);
+
+}
+
+function share(){
+
+  const text=document.getElementById("fortune").innerText+"\n"+document.getElementById("quote").innerText;
+
+  navigator.clipboard.writeText(text);
+
+  alert("คัดลอกคำทำนายแล้ว แชร์ได้เลย 🧘🏻‍♀️📿");
+
+}
+
+</script>
+
+</body>
+
+</html>
