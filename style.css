@@ -1,0 +1,106 @@
+/* --- ส่วนการตั้งค่าพื้นฐาน (General) --- */
+body {
+  margin: 0;
+  font-family: 'Prompt', sans-serif;
+  background: radial-gradient(circle at top, #1a1a2e, #0f172a);
+  color: white;
+  text-align: center;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* --- เอฟเฟกต์แสงฟุ้ง (Glow Background) --- */
+.glow {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 211, 105, 0.33), transparent);
+  filter: blur(80px);
+  animation: float 6s infinite alternate;
+  z-index: -1;
+}
+
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(100px); }
+}
+
+/* --- เลย์เอาต์หลัก (Container & Input) --- */
+.container {
+  padding: 40px 20px;
+}
+
+input {
+  padding: 12px;
+  border-radius: 20px;
+  border: none;
+  width: 200px;
+  text-align: center;
+  margin-bottom: 20px;
+  outline: none;
+}
+
+/* --- กระบอกเซียมซี (Siamsee Stick) --- */
+.stick {
+  width: 140px;
+  height: 200px;
+  margin: 20px auto;
+  border-radius: 20px;
+  background: linear-gradient(#ffb703, #fb8500);
+  box-shadow: 0 0 30px #ffb703;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+/* แอนิเมชันตอนเขย่า */
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(-10deg); }
+  75% { transform: rotate(6deg); }
+  100% { transform: rotate(0); }
+}
+
+/* --- ส่วนแสดงผลลัพธ์ (Result Card) --- */
+.result {
+  display: none;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* สำหรับ Safari */
+  max-width: 400px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.quote {
+  font-style: italic;
+  margin-top: 10px;
+  opacity: 0.9;
+  color: #ffd369; /* ปรับสีคำคมให้เด่นขึ้น */
+}
+
+/* --- ปุ่มกด (Buttons) --- */
+button {
+  margin-top: 15px;
+  margin-right: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  background: #ffd369;
+  color: #1a1a2e;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #fb8500;
+  color: white;
+  transform: scale(1.05);
+}
